@@ -1,12 +1,11 @@
 #version 330 core
 
-in vec2 chTex; // Koordinate teksture
+in vec2 chTex;
 out vec4 outCol;
 
-uniform sampler2D uTex;      // Tekstura
+uniform sampler2D uTex;
 
 void main()
 {
-    // Uèitaj boju iz teksture
     outCol = texture(uTex, chTex);
 }

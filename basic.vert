@@ -12,7 +12,7 @@ out vec4 chCol;
 
 void main()
 {
-	gl_Position = uP * uV * uM * vec4(inPos, 1.0); //Zbog nekomutativnosti mnozenja matrica, moramo mnoziti MVP matrice i tjemena "unazad"
+	gl_Position = uP * uV * uM * vec4(inPos, 1.0);
 	chCol = inCol;
 	TexCoord = aTexCoord;
 }

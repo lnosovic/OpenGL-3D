@@ -56,7 +56,7 @@ struct Particle {
 vector<Particle> particles;
 const int MAX_PARTICLES = 100;
 float particleSpawnTimer = 0.0f;
-float particleSpawnRate = 0.05f; // Nova cestica svakih 0.05 sekundi
+float particleSpawnRate = 0.05f;
 const float WATER_LEVEL = -0.4f;
 const vec3 FOUNTAIN_TOP = vec3(0.0f, 2.85f, 0.0f);
 
@@ -272,12 +272,12 @@ int main(void)
     glBindVertexArray(0);
 
     //Tekstura pozadine
-    glBindTexture(GL_TEXTURE_2D, texture); //Podesavamo teksturu
-    glGenerateMipmap(GL_TEXTURE_2D); //Generisemo mipmape 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);//S = U = X    GL_REPEAT, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_BORDER
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);// T = V = Y
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);   //GL_NEAREST, GL_LINEAR
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
     unsigned int uTexLoc = glGetUniformLocation(texture, "uTex");
     glUseProgram(textureShader);
@@ -323,21 +323,21 @@ int main(void)
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++            UNIFORME            +++++++++++++++++++++++++++++++++++++++++++++++++
 
-    mat4 model = mat4(1.0f); //Matrica transformacija - mat4(1.0f) generise jedinicnu matricu
+    mat4 model = mat4(1.0f); 
     unsigned int modelLoc = glGetUniformLocation(unifiedShader, "uM");
 
-    mat4 view; //Matrica pogleda (kamere)
-    view = lookAt(cameraPos, vec3(0.0f, 1.0f, 0.0f), cameraUp); // lookAt(Gdje je kamera, u sta kamera gleda, jedinicni vektor pozitivne Y ose svijeta  - ovo rotira kameru)
+    mat4 view; 
+    view = lookAt(cameraPos, vec3(0.0f, 1.0f, 0.0f), cameraUp); 
     unsigned int viewLoc = glGetUniformLocation(unifiedShader, "uV");
 
 
-    mat4 projection = perspective(radians(fov), (float)wWidth / (float)wHeight, 0.1f, 100.0f); //Matrica perspektivne projekcije (FOV, Aspect Ratio, prednja ravan, zadnja ravan)
+    mat4 projection = perspective(radians(fov), (float)wWidth / (float)wHeight, 0.1f, 100.0f);
     unsigned int projectionLoc = glGetUniformLocation(unifiedShader, "uP");
 
     //// ++++++++++++++++++++++++++++++++++++++++++++++++++++++ RENDER LOOP - PETLJA ZA CRTANJE +++++++++++++++++++++++++++++++++++++++++++++++++
 
-    glUseProgram(unifiedShader); //Slanje default vrijednosti uniformi
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model)); //(Adresa matrice, broj matrica koje saljemo, da li treba da se transponuju, pokazivac do matrica)
+    glUseProgram(unifiedShader);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, value_ptr(projection));
 
@@ -392,7 +392,7 @@ int main(void)
             }
         }
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Osvjezavamo i Z bafer i bafer boje
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glUseProgram(unifiedShader);
         glUniform3f(pomColLoc, 1.0f, 1.0f, 1.0f);
@@ -451,7 +451,7 @@ int main(void)
         glBindVertexArray(VAO[0]);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-        // --- CRTANJE CESTICA ---
+        //CRTANJE CESTICA
         glBindVertexArray(VAO[1]);
         glUniform3f(pomColLoc, 0.631f, 0.850f, 0.956f);
         glBindTexture(GL_TEXTURE_2D, smallCubeTexture);
@@ -464,8 +464,7 @@ int main(void)
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
-        //Postavljanje ime,preime i index autora
-        //glDisable(GL_DEPTH_TEST);
+        //Pozadina
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glUseProgram(textureShader);
@@ -474,7 +473,6 @@ int main(void)
 
         glBindVertexArray(VAO[3]);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        //glEnable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
         glBindVertexArray(0);
 
