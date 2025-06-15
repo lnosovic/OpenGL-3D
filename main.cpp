@@ -248,7 +248,6 @@ int main(void)
     unsigned waterTexture = loadImageToTexture("water.jpg");
     unsigned  marbleTexture = loadImageToTexture("marble.jpg");
     unsigned  smallCubeTexture = loadImageToTexture("Sky_Blue.png");
-    unsigned int pomColLoc = glGetUniformLocation(unifiedShader, "pomCol");
 
     float textureVertices[] =
     {
@@ -279,7 +278,7 @@ int main(void)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
-    unsigned int uTexLoc = glGetUniformLocation(texture, "uTex");
+    unsigned int uTexLoc = glGetUniformLocation(textureShader, "uTex");
     glUseProgram(textureShader);
     glUniform1i(uTexLoc, 0);
     glUseProgram(0);
@@ -292,10 +291,6 @@ int main(void)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
-    unsigned int uUniTexLoc = glGetUniformLocation(texture, "uTex");
-    glUseProgram(unifiedShader);
-    glUniform1i(uUniTexLoc, 0);
-    glUseProgram(0);
 
     //Tekstura fontane
     glBindTexture(GL_TEXTURE_2D, marbleTexture);
@@ -305,9 +300,7 @@ int main(void)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
-    glUseProgram(unifiedShader);
-    glUniform1i(uUniTexLoc, 0);
-    glUseProgram(0);
+
 
     //Tekstura male kocke
     glBindTexture(GL_TEXTURE_2D, smallCubeTexture);
@@ -317,6 +310,8 @@ int main(void)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    unsigned int uUniTexLoc = glGetUniformLocation(unifiedShader, "uTex");
     glUseProgram(unifiedShader);
     glUniform1i(uUniTexLoc, 0);
     glUseProgram(0);
@@ -346,9 +341,6 @@ int main(void)
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
-
-    glUseProgram(unifiedShader);
-    glUniform3f(pomColLoc, 1.0f, 1.0f, 1.0f);
 
     glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
 
@@ -395,7 +387,6 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glUseProgram(unifiedShader);
-        glUniform3f(pomColLoc, 1.0f, 1.0f, 1.0f);
 
         int screenWidth, screenHeight;
         glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
@@ -453,7 +444,6 @@ int main(void)
 
         //CRTANJE CESTICA
         glBindVertexArray(VAO[1]);
-        glUniform3f(pomColLoc, 0.631f, 0.850f, 0.956f);
         glBindTexture(GL_TEXTURE_2D, smallCubeTexture);
         for (const auto& p : particles) {
             model = mat4(1.0f);
