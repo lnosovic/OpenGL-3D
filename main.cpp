@@ -42,8 +42,8 @@ float fov = 45.0f;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-const double TARGET_FPS = 60.0f;
-const double FRAME_TIME = 1.0f / TARGET_FPS;
+const double TARGET_FPS = 60.0;
+const double FRAME_TIME = 1.0 / TARGET_FPS;
 
 struct Particle {
     vec3 position;
